@@ -13,18 +13,38 @@ class TodoListViewController: UIViewController {
     func inject (presenter: TodoListPresenterInput) {
         self.presenter = presenter
     }
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.dataSource = self
+        
+        presenter.viewDidLoad()
     }
-
 
 }
 
 extension TodoListViewController: TodoListPresenterOutput {
     func updateItems() {
-        
+        tableView.reloadData()
     }
     
 }
 
+extension TodoListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return presenter.numberOfItems
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        
+        cell.textLabel?.text = presenter.item(forRow: indexPath.row)
+
+        return cell
+    }
+    
+}

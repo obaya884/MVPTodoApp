@@ -13,8 +13,7 @@ protocol TodoModelInput {
 
 final class TodoModel: TodoModelInput {
     func fetchItems() -> [String] {
-        return []
+        return UserDefaults.standard.array(forKey: "TodoItems") as! [String]
     }
-    
     
 }
