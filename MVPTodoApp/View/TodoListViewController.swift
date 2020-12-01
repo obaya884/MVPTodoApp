@@ -22,6 +22,7 @@ class TodoListViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.dataSource = self
+        tableView.delegate = self
         
         presenter.viewDidLoad()
     }
@@ -37,7 +38,7 @@ class TodoListViewController: UIViewController {
 
 extension TodoListViewController: TodoListPresenterOutput {
     func updateItems() {
-        tableView.reloadData()
+        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
 }
@@ -53,6 +54,19 @@ extension TodoListViewController: UITableViewDataSource {
         cell.textLabel?.text = presenter.item(forRow: indexPath.row)
 
         return cell
+    }
+    
+}
+
+extension TodoListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            presenter.didEditingDelete(at: indexPath)
+        }
     }
     
 }

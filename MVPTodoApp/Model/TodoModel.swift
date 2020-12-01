@@ -10,6 +10,7 @@ import Foundation
 protocol TodoModelInput {
     func fetchItems() -> [String]
     func addItem(itemContent: String, completion: () -> ())
+    func deleteItem(at index: Int, completion: () -> ())
 }
 
 final class TodoModel: TodoModelInput {
@@ -28,4 +29,10 @@ final class TodoModel: TodoModelInput {
         completion()
     }
     
+    func deleteItem(at index: Int, completion: () -> ()) {
+        var items = userDefaluts.array(forKey: ITEM_KEY) as! [String]
+        items.remove(at: index)
+        userDefaluts.set(items, forKey: ITEM_KEY)
+        completion()
+    }
 }
