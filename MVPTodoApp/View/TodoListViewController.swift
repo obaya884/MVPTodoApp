@@ -24,6 +24,8 @@ class TodoListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        newItemTextField.delegate = self
+        
         presenter.viewDidLoad()
     }
     
@@ -31,6 +33,7 @@ class TodoListViewController: UIViewController {
         if !newItemTextField.text!.isEmpty {
             presenter.addNewItem(itemContent: newItemTextField.text!)
             newItemTextField.text = ""
+            newItemTextField.resignFirstResponder()
         }
     }
 
@@ -69,4 +72,10 @@ extension TodoListViewController: UITableViewDelegate {
         }
     }
     
+}
+
+extension TodoListViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
 }
