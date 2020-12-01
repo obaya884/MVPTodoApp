@@ -10,6 +10,7 @@ import Foundation
 protocol TodoListPresenterInput {
     var numberOfItems: Int{get}
     func item(forRow row: Int) -> String?
+    func addNewItem(itemContent: String)
     func viewDidLoad()
 }
 
@@ -40,6 +41,13 @@ final class TodoListPresenter: TodoListPresenterInput {
         return items[row]
     }
     
+    func addNewItem(itemContent: String) {
+        model.addItem(itemContent: itemContent) {
+            items = model.fetchItems()
+            view.updateItems()
+        }
+    }
+        
     func viewDidLoad() {
         items = model.fetchItems()
         view.updateItems()

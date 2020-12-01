@@ -16,6 +16,7 @@ class TodoListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var newItemTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,13 @@ class TodoListViewController: UIViewController {
         tableView.dataSource = self
         
         presenter.viewDidLoad()
+    }
+    
+    @IBAction func tappedAddButton() {
+        if !newItemTextField.text!.isEmpty {
+            presenter.addNewItem(itemContent: newItemTextField.text!)
+            newItemTextField.text = ""
+        }
     }
 
 }

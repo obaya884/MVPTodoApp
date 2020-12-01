@@ -9,11 +9,23 @@ import Foundation
 
 protocol TodoModelInput {
     func fetchItems() -> [String]
+    func addItem(itemContent: String, completion: () -> ())
 }
 
 final class TodoModel: TodoModelInput {
+    
+    private let userDefaluts = UserDefaults.standard
+    private let ITEM_KEY = "TodoItems"
+    
     func fetchItems() -> [String] {
-        return UserDefaults.standard.array(forKey: "TodoItems") as! [String]
+        return userDefaluts.array(forKey: ITEM_KEY) as! [String]
+    }
+    
+    func addItem(itemContent: String, completion: () -> ()) {
+        var items = userDefaluts.array(forKey: ITEM_KEY) as! [String]
+        items.append(itemContent)
+        userDefaluts.set(items, forKey: ITEM_KEY)
+        completion()
     }
     
 }
